@@ -133,7 +133,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         # only add a segment, once we certainly get a prediction
         # start=time.time()
         # print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
-        # print("predict=======")
+        print("predict=======")
         # if segment not in segment2score:
         #     segment2score[segment]=[]
         #     features[segment]=[]
