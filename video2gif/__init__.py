@@ -16,7 +16,7 @@ import os
 import threading
 import time
 import model
-
+import ctypes
 try:
     import lasagne
     import theano
@@ -79,7 +79,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         print("produce_input_data======")
         frames=[]
         seg_nr=0
-
+        print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
         for frame_idx, f in enumerate(video.iter_frames()):
             if frame_idx > segments[seg_nr][1]:
                 seg_nr+=1
