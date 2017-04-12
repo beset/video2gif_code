@@ -92,7 +92,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
                 snip = model.get_snips(frames,snipplet_mean,0,True)
                 queue.put((segments[seg_nr],snip))
                 frames=frames[stride:] # shift by 'stride' frames
-
+        print(len(queue))
         queue.put(sentinel)
 
     def get_input_data():
@@ -118,7 +118,8 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     start=time.time()
     thread.start()
     print('Score segments...')
-
+    print("Total %d segments" % len(segments))
+    index = 0
     for segment,snip in get_input_data():
         # only add a segment, once we certainly get a prediction
         if segment not in segment2score:
@@ -130,11 +131,17 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         else:
             scores=predict(snip)
         segment2score[segment].append(scores.mean(axis=0))
+        index = index + 1
+        print("first %d " % index)
 
+
+    index = 0
     for segment in segment2score.keys():
         segment2score[segment]=np.array(segment2score[segment]).mean(axis=0)
         if with_features:
             features[segment]=np.array(features[segment]).mean(axis=0)
+        index = index + 1
+        print("second %d " % index)
 
     print("Extracting scores for %d segments took %.3fs" % (len(segments),time.time()-start))
     if with_features:
@@ -161,6 +168,7 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6, bottom_k=0)
         out_gif = "%s/%s_%.2d.gif" % (out_dir,video_id,nr)
         clip=clip.resize(height=240)
         clip.write_gif(out_gif,fps=10)
+        print("add 1 good gif")
         good_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
         nr += 1
 
@@ -171,6 +179,7 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6, bottom_k=0)
         clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
         clip=clip.resize(height=240)
         clip.write_gif("%s/%s_%.2d.gif" % (out_dir,video_id,nr),fps=10)
+        print("add 1 bad gif")
         bad_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
         nr -= 1
 
