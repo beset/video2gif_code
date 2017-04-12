@@ -103,8 +103,8 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         @return: (segment,snip)
         '''
         # run as consumer (read items from queue, in current thread)
-        print("get_input_data======")
         item = queue.get()
+        print("get_input_data======")
         while item is not sentinel:
             print("get_input_data====== item")
             yield item
