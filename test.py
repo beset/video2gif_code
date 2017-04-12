@@ -1,5 +1,5 @@
 # Import the video2gif package
-import video2gifmodel
+import video2gif
 '''
 Compile the score function
 On the GPU, the network will be using cuDNN layer implementations available in the Lasagne master
