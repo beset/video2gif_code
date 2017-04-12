@@ -94,6 +94,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
                 print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
                 print("produce_input_data====== queue")
                 queue.put((segments[seg_nr],snip))
+                print("produce_input_data====== 2")
                 frames=frames[stride:] # shift by 'stride' frames
         queue.put(sentinel)
 
