@@ -91,8 +91,8 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
 
             if len(frames)==16: # Extract scores
                 snip = model.get_snips(frames,snipplet_mean,0,True)
-                queue.put((segments[seg_nr],snip))
                 print("produce_input_data====== queue")
+                queue.put((segments[seg_nr],snip))
                 frames=frames[stride:] # shift by 'stride' frames
         queue.put(sentinel)
 
