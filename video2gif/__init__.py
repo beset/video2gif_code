@@ -94,7 +94,6 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
                 queue.put((segments[seg_nr],snip))
                 print("produce_input_data====== queue")
                 frames=frames[stride:] # shift by 'stride' frames
-        print(len(queue))
         queue.put(sentinel)
 
     def get_input_data():
