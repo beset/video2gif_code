@@ -92,7 +92,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
             if len(frames)==16: # Extract scores
                 start=time.time()
                 snip = model.get_snips(frames,snipplet_mean,0,True)
-                print("generate data took %.3fs" % time.time()-start)
+                print("generate data took %.3fs" % (time.time() - start))
                 print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
                 print("produce_input_data====== queue")
                 queue.put((segments[seg_nr],snip))
