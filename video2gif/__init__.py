@@ -76,6 +76,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         Function to generate sniplets that serve as input to the network
         @return:
         '''
+        print("produce_input_data======")
         frames=[]
         seg_nr=0
 
@@ -91,6 +92,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
             if len(frames)==16: # Extract scores
                 snip = model.get_snips(frames,snipplet_mean,0,True)
                 queue.put((segments[seg_nr],snip))
+                print("produce_input_data====== queue")
                 frames=frames[stride:] # shift by 'stride' frames
         print(len(queue))
         queue.put(sentinel)
@@ -101,8 +103,10 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         @return: (segment,snip)
         '''
         # run as consumer (read items from queue, in current thread)
+        print("get_input_data======")
         item = queue.get()
         while item is not sentinel:
+            print("get_input_data====== item")
             yield item
             queue.task_done()
             item = queue.get()
@@ -122,6 +126,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     index = 0
     for segment,snip in get_input_data():
         # only add a segment, once we certainly get a prediction
+        print("predict=======")
         if segment not in segment2score:
             segment2score[segment]=[]
             features[segment]=[]

@@ -9,7 +9,7 @@ You can get it from https://github.com/gyglim/Lasagne
 
 '''
 
-score_function = video2gifmodel.get_prediction_function()
+score_function = video2gif.get_prediction_function()
 
 from IPython.display import Image, display
 import os
@@ -31,7 +31,7 @@ segments = [(start, int(start+video.fps*5)) for start in range(0,int(video.durat
 print "prepared segments"
 
 # Score the segments
-scores=video2gifmodel.get_scores(score_function, segments, video, stride=8)
+scores=video2gif.get_scores(score_function, segments, video, stride=8)
 
 '''
 Now we generate GIFs for some segments and show them
@@ -43,7 +43,7 @@ if not os.path.exists(OUT_DIR):
     os.mkdir(OUT_DIR)
 
 # Generate GIFs from the top scoring segments
-good_gifs,bad_gifs = video2gifmodel.generate_gifs(OUT_DIR,scores, video, video_name,top_k=3,bottom_k=3)
+good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=3,bottom_k=3)
 
 # Show them in the jupyter notebook
 # for gif_data in good_gifs: # Top GIFs
