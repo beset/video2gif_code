@@ -15,6 +15,7 @@ import numpy as np
 import os
 import threading
 import time
+from time import sleep
 import model
 import ctypes
 try:
@@ -131,19 +132,20 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     index = 0
     for segment,snip in get_input_data():
         # only add a segment, once we certainly get a prediction
-        start=time.time()
+        # start=time.time()
         print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
         print("predict=======")
-        if segment not in segment2score:
-            segment2score[segment]=[]
-            features[segment]=[]
-        if with_features:
-            scores,feat=predict(snip)
-            features[segment].append(feat.mean(axis=0))
-        else:
-            scores=predict(snip)
-        segment2score[segment].append(scores.mean(axis=0))
-        index = index + 1
+        sleep(50)
+        # if segment not in segment2score:
+        #     segment2score[segment]=[]
+        #     features[segment]=[]
+        # if with_features:
+        #     scores,feat=predict(snip)
+        #     features[segment].append(feat.mean(axis=0))
+        # else:
+        #     scores=predict(snip)
+        # segment2score[segment].append(scores.mean(axis=0))
+        # index = index + 1
         print("first %d " % index)
         print("predict took %.3fs" % (time.time() - start))
 
