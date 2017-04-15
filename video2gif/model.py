@@ -7,10 +7,11 @@ __author__ = 'michaelgygli'
 
 from lasagne.layers.shape import PadLayer
 from lasagne.layers import InputLayer, DenseLayer
-try:
-    from lasagne.layers.dnn import Conv3DDNNLayer, MaxPool3DDNNLayer
-except ImportError as e:
-    print(e)
+# try:
+#     from lasagne.layers.dnn import Conv3DDNNLayer, MaxPool3DDNNLayer
+# except ImportError as e:
+#     print(e)
+from lasagne.layers.dnn import Conv3DDNNLayer, MaxPool3DDNNLayer
 import pickle
 import lasagne
 import numpy as np
