@@ -54,6 +54,7 @@ if not os.path.exists(OUT_DIR):
 
 # Generate GIFs from the top scoring segments
 gifCount = len(scores)
+print "gifs count:"
 print gifCount
 good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=100,bottom_k=3)
 
