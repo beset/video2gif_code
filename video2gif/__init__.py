@@ -125,7 +125,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     segment2score=collections.OrderedDict()
     features=collections.OrderedDict()
 
-    start=time.time()
+    extractStart=time.time()
     thread.start()
     print('Score segments...')
     print("Total %d segments" % len(segments))
@@ -158,7 +158,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         index = index + 1
         print("second %d " % index)
 
-    print("Extracting scores for %d segments took %.3fs" % (len(segments),time.time()-start))
+    print("Extracting scores for %d segments took %.3fs" % (len(segments),time.time()-extractStart))
     if with_features:
         return segment2score, features
     else:
