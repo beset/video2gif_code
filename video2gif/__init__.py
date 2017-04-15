@@ -77,10 +77,8 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         Function to generate sniplets that serve as input to the network
         @return:
         '''
-        print("produce_input_data======")
         frames=[]
         seg_nr=0
-        print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
         for frame_idx, f in enumerate(video.iter_frames()):
             if frame_idx > segments[seg_nr][1]:
                 seg_nr+=1
@@ -93,11 +91,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
             if len(frames)==16: # Extract scores
                 start=time.time()
                 snip = model.get_snips(frames,snipplet_mean,0,True)
-                print("generate data took %.3fs" % (time.time() - start))
-                print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
-                print("produce_input_data====== queue")
                 queue.put((segments[seg_nr],snip))
-                print("produce_input_data====== 2")
                 frames=frames[stride:] # shift by 'stride' frames
         queue.put(sentinel)
 
@@ -108,11 +102,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         '''
         # run as consumer (read items from queue, in current thread)
         item = queue.get()
-        print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
-        print("get_input_data======")
         while item is not sentinel:
-            print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
-            print("get_input_data====== item")
             yield item
             queue.task_done()
             item = queue.get()
@@ -132,9 +122,6 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     index = 0
     for segment,snip in get_input_data():
         # only add a segment, once we certainly get a prediction
-        start=time.time()
-        print "threaing id: ",ctypes.CDLL('libc.so.6').syscall(186)
-        print("predict=======")
         # sleep(50)
         if segment not in segment2score:
             segment2score[segment]=[]
@@ -147,7 +134,6 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         segment2score[segment].append(scores.mean(axis=0))
         index = index + 1
         print("first %d " % index)
-        print("predict took %.3fs" % (time.time() - start))
 
 
     index = 0
