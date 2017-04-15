@@ -27,8 +27,18 @@ video_name=os.path.splitext(os.path.split(video_path)[1])[0]
 video = VideoFileClip(video_path)
 
 # Build segments (uniformly of 5 seconds)
-segments = [(start, int(start+video.fps*5)) for start in range(0,int(video.duration*video.fps),int(video.fps*5))]
-print "prepared segments"
+segments = []
+var index = 1
+for videoStart in range(0, int(video.duration) - 5, 1):
+	print index
+	particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
+	print "particalSegments count:"
+	print len(particalSegments)
+	segments.extend(particalSegments)
+	index = index + 1
+
+print "segments count:"
+print len(segments)
 
 # Score the segments
 scores=video2gif.get_scores(score_function, segments, video, stride=8)
@@ -43,7 +53,9 @@ if not os.path.exists(OUT_DIR):
     os.mkdir(OUT_DIR)
 
 # Generate GIFs from the top scoring segments
-good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=3,bottom_k=3)
+gifCount = len(scores)
+print gifCount
+good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=100,bottom_k=3)
 
 # Show them in the jupyter notebook
 # for gif_data in good_gifs: # Top GIFs
