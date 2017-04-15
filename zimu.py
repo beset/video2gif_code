@@ -1,9 +1,10 @@
-#-*- coding:utf-8 -*-
-from moviepy.editor import VideoFileClip
+from IPython.display import Image, display
 import os
+from moviepy.editor import VideoFileClip
 
 zimuPath = './e700.ass'
-videoPath = './e700.rmvb'
+videoPath = './e700.mp4'
+# videoPath = 'data/nWHIHe-rjoU.mp4'
 
 video = VideoFileClip(videoPath)
 
@@ -41,6 +42,6 @@ for zimu in zimus:
     clip = video.subclip(zimu['start'], zimu['end'])
     out_gif = "%s/%s_%.2d.gif" % (out_dir, video_id, nr)
     clip = clip.resize(height=240)
-    clip.write_gif(out_gif, fps=10)
+    clip.write_gif(out_gif, fps=5)
     print "add one gif"
     nr = nr + 1
