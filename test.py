@@ -27,21 +27,26 @@ video_name=os.path.splitext(os.path.split(video_path)[1])[0]
 video = VideoFileClip(video_path)
 
 # Build segments (uniformly of 5 seconds)
-segments = []
+segmentsArray = []
 index = 1
 for videoStart in range(0, int(video.duration) - 5, 1):
 	print index
 	particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
 	print "particalSegments count:"
 	print len(particalSegments)
-	segments.extend(particalSegments)
+	segmentsArray.append(particalSegments)
 	index = index + 1
 
 print "segments count:"
-print len(segments)
+print len(segmentsArray)
 
 # Score the segments
-scores=video2gif.get_scores(score_function, segments, video, stride=8)
+scores = {}
+for particalSegments in segmentsArray:
+	particalScores = video2gif.get_scores(score_function, segments, video, stride=8)
+	scores.update(particalScores)
+	print "score count:"
+	print len(scores)
 
 '''
 Now we generate GIFs for some segments and show them
