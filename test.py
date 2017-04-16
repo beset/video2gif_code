@@ -28,7 +28,7 @@ video = VideoFileClip(video_path)
 
 # Build segments (uniformly of 5 seconds)
 segmentsArray = []
-for videoStart in range(0, 4, 1):
+for videoStart in range(0, 5, 1):
 	print "videoStart:"
 	print videoStart
 	particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
