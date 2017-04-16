@@ -43,7 +43,7 @@ print len(segmentsArray)
 # Score the segments
 scores = {}
 for particalSegments in segmentsArray:
-	particalScores = video2gif.get_scores(score_function, segments, video, stride=8)
+	particalScores = video2gif.get_scores(score_function, particalSegments, video, stride=8)
 	scores.update(particalScores)
 	print "score count:"
 	print len(scores)
