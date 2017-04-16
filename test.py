@@ -61,7 +61,7 @@ if not os.path.exists(OUT_DIR):
 gifCount = len(scores)
 print "gifs count:"
 print gifCount
-good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=100,bottom_k=3)
+good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=50,bottom_k=3)
 
 # Show them in the jupyter notebook
 # for gif_data in good_gifs: # Top GIFs
