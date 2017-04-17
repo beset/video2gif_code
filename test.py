@@ -35,7 +35,7 @@ for root, dirs, files in list_dirs:
     print video_path
     video = VideoFileClip(video_path)
 
-    # Build segments (uniformly of 5 seconds)
+    # Build segments
 	segmentsArray = []
 	for videoStart in range(0, clipDuration, 1):
 		print "videoStart:"
