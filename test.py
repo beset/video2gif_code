@@ -34,8 +34,6 @@ for root, dirs, files in list_dirs:
     video_name=os.path.splitext(os.path.split(video_path)[1])[0]
     print video_path
     video = VideoFileClip(video_path)
-
-    # Build segments
 	segmentsArray = []
 	for videoStart in range(0, clipDuration, 1):
 		print "videoStart:"
