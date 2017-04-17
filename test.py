@@ -24,6 +24,7 @@ finally generate GIFs from the top and bottom scored ones
 
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
+clipDuration = int(sys.argv[3])
 
 list_dirs = os.walk(videosDir) 
 for root, dirs, files in list_dirs:  
@@ -36,10 +37,10 @@ for root, dirs, files in list_dirs:
 
     # Build segments (uniformly of 5 seconds)
 	segmentsArray = []
-	for videoStart in range(0, 5, 1):
+	for videoStart in range(0, clipDuration, 1):
 		print "videoStart:"
 		print videoStart
-		particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
+		particalSegments = [(start, int(start+video.fps*clipDuration)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*clipDuration))]
 		print "particalSegments count:"
 		print len(particalSegments)
 		segmentsArray.append(particalSegments)
