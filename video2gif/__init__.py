@@ -150,7 +150,10 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     else:
         return segment2score
 
-def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6, bottom_k=0):
+def is_overlapping(x1,x2,y1,y2):
+    return max(x1,y1) < min(x2,y2)
+
+def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6):
     '''
     @param out_dir: directory where the GIFs are written to
     @param segment2scores: a dict with segments (start frame, end frame) as keys and the segment score as value
@@ -163,25 +166,25 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6, bottom_k=0)
     nr=0
     top_k=min(top_k, len(segment2scores))
     good_gifs=[]
+    occupiedTime = []
+
     for segment in sorted(segment2scores, key=lambda x: -segment2scores.get(x))[0:top_k]:
+        overlaping = 0
+        for seg in occupiedTime:
+            if is_overlapping(seg[0], seg[1], segment[0], segment[1]):
+                overlaping = 1
+                print "skip overlapping"
+                break
 
-        clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
-        out_gif = "%s/%s_%.2d.gif" % (out_dir,video_id,nr)
-        clip=clip.resize(height=240)
-        clip.write_gif(out_gif,fps=10)
-        print("add 1 good gif")
-        good_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
-        nr += 1
+        occupiedTime.append(segment)
 
-    bottom_k=min(bottom_k, len(segment2scores))
-    bad_gifs=[]
-    nr=len(segment2scores)
-    for segment in sorted(segment2scores, key=segment2scores.get)[0:bottom_k]:
-        clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
-        clip=clip.resize(height=240)
-        clip.write_gif("%s/%s_%.2d.gif" % (out_dir,video_id,nr),fps=10)
-        print("add 1 bad gif")
-        bad_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
-        nr -= 1
+        if overlaping == 0:
+            clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
+            out_gif = "%s/%s_%.2d.gif" % (out_dir,video_id,nr)
+            clip=clip.resize(height=240)
+            clip.write_gif(out_gif,fps=10)
+            print("add 1 good gif")
+            good_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
+            nr += 1
 
-    return good_gifs,bad_gifs
+    return good_gifs
