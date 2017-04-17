@@ -55,7 +55,7 @@ def process_and_generate_gifs(video_path, video_name):
 	gifCount = len(scores)
 	print "gifs count:"
 	print gifCount
-	good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=topCount)
+	good_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=topCount)
 
 list_dirs = os.walk(videosDir) 
 for root, dirs, files in list_dirs:  

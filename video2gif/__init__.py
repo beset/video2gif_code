@@ -164,11 +164,14 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6):
     segment2scores = segment2scores.copy()
 
     nr=0
-    top_k=min(top_k, len(segment2scores))
+    totalCount = len(segment2scores)
+    top_k=min(top_k, totalCount)
     good_gifs=[]
     occupiedTime = []
 
-    for segment in sorted(segment2scores, key=lambda x: -segment2scores.get(x))[0:top_k]:
+    for segment in sorted(segment2scores, key=lambda x: -segment2scores.get(x))[0:totalCount]:
+        if nr >= top_k:
+            break
         overlaping = 0
         for seg in occupiedTime:
             if is_overlapping(seg[0], seg[1], segment[0], segment[1]):
