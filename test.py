@@ -33,7 +33,12 @@ for root, dirs, files in list_dirs:
     video_path = os.path.join(root, f)
     video_name=os.path.splitext(os.path.split(video_path)[1])[0]
     print video_path
-    video = VideoFileClip(video_path)
+    process_and_generate_gifs(video_path, video_name)
+	
+
+
+def process_and_generate_gifs(video_path, video_name):
+	video = VideoFileClip(video_path)
 	segmentsArray = []
 	for videoStart in range(0, clipDuration, 1):
 		print "videoStart:"
@@ -68,5 +73,4 @@ for root, dirs, files in list_dirs:
 	print "gifs count:"
 	print gifCount
 	good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=topCount,bottom_k=0)
-
 
