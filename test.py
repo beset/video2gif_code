@@ -14,6 +14,7 @@ score_function = video2gif.get_prediction_function()
 from IPython.display import Image, display
 import os
 from moviepy.editor import VideoFileClip
+import sys
 
 '''
 Now, let's generate generate some GIFs.
@@ -21,60 +22,52 @@ For this we create uniform segment of 5 seconds, score them and
 finally generate GIFs from the top and bottom scored ones
 '''
 
-# Take the example video
-video_path='data/nWHIHe-rjoU.mp4'
-video_name=os.path.splitext(os.path.split(video_path)[1])[0]
-video = VideoFileClip(video_path)
+videosDir = sys.argv[1]
+topCount = int(sys.argv[2])
 
-# Build segments (uniformly of 5 seconds)
-segmentsArray = []
-for videoStart in range(0, 5, 1):
-	print "videoStart:"
-	print videoStart
-	particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
-	print "particalSegments count:"
-	print len(particalSegments)
-	segmentsArray.append(particalSegments)
+list_dirs = os.walk(videosDir) 
+for root, dirs, files in list_dirs:  
+  for f in files: 
+  	# Take the example video
+    video_path = os.path.join(root, f)
+    video_name=os.path.splitext(os.path.split(video_path)[1])[0]
+    print video_path
+    video = VideoFileClip(video_path)
 
-print "segments count:"
-print len(segmentsArray)
+    # Build segments (uniformly of 5 seconds)
+	segmentsArray = []
+	for videoStart in range(0, 5, 1):
+		print "videoStart:"
+		print videoStart
+		particalSegments = [(start, int(start+video.fps*5)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*5))]
+		print "particalSegments count:"
+		print len(particalSegments)
+		segmentsArray.append(particalSegments)
 
-# Score the segments
-scores = {}
-for particalSegments in segmentsArray:
-	particalScores = video2gif.get_scores(score_function, particalSegments, video, stride=8)
-	scores.update(particalScores)
-	print "score count:"
-	print len(scores)
+	print "segments count:"
+	print len(segmentsArray)
 
-'''
-Now we generate GIFs for some segments and show them
-'''
-
-# We need a directory to store the GIFs
-OUT_DIR='/tmp/gifs'
-if not os.path.exists(OUT_DIR):
-    os.mkdir(OUT_DIR)
-
-# Generate GIFs from the top scoring segments
-gifCount = len(scores)
-print "gifs count:"
-print gifCount
-good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=50,bottom_k=3)
-
-# Show them in the jupyter notebook
-# for gif_data in good_gifs: # Top GIFs
-#     gif_data[1]
-#     gif_path='%s/%s_%.2d.gif' % (OUT_DIR,video_name,gif_data[1])
-#     with open(gif_path,'rb') as f:
-#         display(Image(f.read()), format='png')
+	# Score the segments
+	scores = {}
+	for particalSegments in segmentsArray:
+		particalScores = video2gif.get_scores(score_function, particalSegments, video, stride=8)
+		scores.update(particalScores)
+		print "score count:"
+		print len(scores)
 
 
-# # Now, for comparison, we show the GIFs with the worst scores
-# for gif_data in bad_gifs: 
-#     gif_data[1]
-#     gif_path='%s/%s_%.2d.gif' % (OUT_DIR,video_name,gif_data[1])
-#     with open(gif_path,'rb') as f:
-#         display(Image(f.read()), format='png')
+		'''
+	Now we generate GIFs for some segments and show them
+	'''
+	# We need a directory to store the GIFs
+	OUT_DIR='./gifs'
+	if not os.path.exists(OUT_DIR):
+	    os.mkdir(OUT_DIR)
+
+	# Generate GIFs from the top scoring segments
+	gifCount = len(scores)
+	print "gifs count:"
+	print gifCount
+	good_gifs,bad_gifs = video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=topCount,bottom_k=0)
 
 
