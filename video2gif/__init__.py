@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 '''
 This module contains functions to create the Video2GIF network and load the weights
 as well as some helper functions, e.g. for generating the final GIF files.
@@ -166,7 +167,6 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6):
     nr=0
     totalCount = len(segment2scores)
     top_k=min(top_k, totalCount)
-    good_gifs=[]
     occupiedTime = []
 
     for segment in sorted(segment2scores, key=lambda x: -segment2scores.get(x))[0:totalCount]:
@@ -184,10 +184,7 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6):
         if overlaping == 0:
             clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
             out_gif = "%s/%s_%.2d.gif" % (out_dir,video_id,nr)
-            clip=clip.resize(height=240)
+            ## resize
+            clip=clip.resize(width=500)
             clip.write_gif(out_gif,fps=10)
-            print("add 1 good gif")
-            good_gifs.append((video_id, nr, segment[0], segment[1], segment2scores[segment]))
             nr += 1
-
-    return good_gifs

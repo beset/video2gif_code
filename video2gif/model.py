@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 '''
 This module contains the model used in our paper
  Michael Gygli, Yale Song, Liangliang Cao
