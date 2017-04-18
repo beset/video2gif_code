@@ -20,7 +20,7 @@ import sys
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
-outputDir = sys.argv[4].decode('utf-8')
+outputDir = sys.argv[4]
 
 
 def process_and_generate_gifs(video_path, video_name):
@@ -65,7 +65,7 @@ for root, dirs, files in list_dirs:
   for f in files: 
   	# Take the example video
     video_path = os.path.join(root, f)
-    video_name=os.path.splitext(os.path.split(video_path)[1])[0].decode('utf-8')
+    video_name=os.path.splitext(os.path.split(video_path)[1])[0]
     print video_path
     process_and_generate_gifs(video_path, video_name)
 	
