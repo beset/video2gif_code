@@ -20,7 +20,7 @@ import sys
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
-outputDir = sys.argv[4].decode('utf-8')
+outputDir = sys.argv[4]
 
 
 print outputDir
