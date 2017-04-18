@@ -20,6 +20,7 @@ import sys
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
+outputDir = sys.argv[4]
 
 def process_and_generate_gifs(video_path, video_name):
 	video = VideoFileClip(video_path)
@@ -48,7 +49,7 @@ def process_and_generate_gifs(video_path, video_name):
 	Now we generate GIFs for some segments and show them
 	'''
 	# We need a directory to store the GIFs
-	OUT_DIR='./gifs'
+	OUT_DIR=outputDir
 	if not os.path.exists(OUT_DIR):
 	    os.mkdir(OUT_DIR)
 
