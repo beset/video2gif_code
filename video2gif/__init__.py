@@ -184,7 +184,6 @@ def generate_gifs(out_dir, segment2scores, video, video_id, top_k=6):
         if overlaping == 0:
             clip = video.subclip(segment[0]/float(video.fps), segment[1]/float(video.fps))
             out_gif = "%s/%s_%.2d.gif" % (out_dir,video_id,nr)
-            print out_gif
             ## resize
             clip=clip.resize(width=500)
             clip.write_gif(out_gif,fps=10)
