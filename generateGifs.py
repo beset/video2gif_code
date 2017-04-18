@@ -20,10 +20,8 @@ import sys
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
-outputDir = sys.argv[4]
+outputDir = sys.argv[4].decode('utf-8')
 
-
-print outputDir
 
 def process_and_generate_gifs(video_path, video_name):
 	video = VideoFileClip(video_path)
