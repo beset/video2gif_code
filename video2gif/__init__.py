@@ -93,7 +93,6 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
                 start=time.time()
                 snip = model.get_snips(frames,snipplet_mean,0,True)
                 queue.put((segments[seg_nr],snip))
-                print "put data to queue"
                 frames=frames[stride:] # shift by 'stride' frames
         queue.put(sentinel)
 
@@ -104,12 +103,10 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         '''
         # run as consumer (read items from queue, in current thread)
         item = queue.get()
-        print "get data from queue"
         while item is not sentinel:
             yield item
             queue.task_done()
             item = queue.get()
-            print "get data from queue"
 
 
     # start producer (in a background thread)
