@@ -10,9 +10,9 @@ def produce_data(video):
 		print "videoStart:"
 		print videoStart
 		particalSegments = [(start, int(start+video.fps*2)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*2))]
-		
+		seg_nr=0		
 		frames=[]
-	    seg_nr=0
+
 	    for frame_idx, f in enumerate(video.iter_frames()):
 	        if frame_idx > particalSegments[seg_nr][1]:
 	            seg_nr+=1
