@@ -17,6 +17,8 @@ import os
 from moviepy.editor import VideoFileClip
 import sys
 
+import time
+
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
