@@ -4,25 +4,12 @@ from moviepy.editor import VideoFileClip
 import sys
 import Queue
 
-queue = Queue.Queue(maxsize=500)
-sentinel = object()  # guaranteed unique reference
-
-videosDir = sys.argv[1]
-
-list_dirs = os.walk(videosDir) 
-for root, dirs, files in list_dirs:  
-  for f in files: 
-  	# Take the example video
-    video_path = os.path.join(root, f)
-    video_name=os.path.splitext(os.path.split(video_path)[1])[0].decode('utf-8')
-    print video_path
-    video = VideoFileClip(video_path)
-
-    segmentsArray = []
+def produce_data(video):
+	segmentsArray = []
 	for videoStart in range(0, 2, 1):
 		print "videoStart:"
 		print videoStart
-		particalSegments = [(start, int(start+video.fps*clipDuration)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*clipDuration))]
+		particalSegments = [(start, int(start+video.fps*2)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*2))]
 		
 		frames=[]
 	    seg_nr=0
@@ -42,6 +29,24 @@ for root, dirs, files in list_dirs:
 	            print "put data to queue"
 	            frames=frames[stride:] # shift by 'stride' frames
 	    queue.put(sentinel)
+
+
+
+queue = Queue.Queue(maxsize=500)
+sentinel = object()  # guaranteed unique reference
+
+videosDir = sys.argv[1]
+
+list_dirs = os.walk(videosDir) 
+for root, dirs, files in list_dirs:  
+  for f in files: 
+  	# Take the example video
+    video_path = os.path.join(root, f)
+    video_name=os.path.splitext(os.path.split(video_path)[1])[0].decode('utf-8')
+    print video_path
+    video = VideoFileClip(video_path)
+    produce_data(video)
+    
 
 
 
