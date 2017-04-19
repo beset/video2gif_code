@@ -70,7 +70,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     @return: dictionary key: segment -> value: score
     '''
 
-    queue = Queue.Queue(maxsize=500)
+    queue = Queue.Queue(maxsize=5000)
     sentinel = object()  # guaranteed unique reference
 
     def produce_input_data():
@@ -121,7 +121,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
 
     extractStart=time.time()
     thread.start()
-    sleep(10)
+    sleep(100)
     print('Score segments...')
     print("Total %d segments" % len(segments))
     index = 0
