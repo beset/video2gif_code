@@ -18,22 +18,34 @@ for root, dirs, files in list_dirs:
     print video_path
     video = VideoFileClip(video_path)
 
-    frames=[]
-    seg_nr=0
-    for frame_idx, f in enumerate(video.iter_frames()):
-        if frame_idx > segments[seg_nr][1]:
-            seg_nr+=1
-            if seg_nr==len(segments):
-                break
-            frames=[]
+    segmentsArray = []
+	for videoStart in range(0, 2, 1):
+		print "videoStart:"
+		print videoStart
+		particalSegments = [(start, int(start+video.fps*clipDuration)) for start in range(int(videoStart*video.fps),int(video.duration*video.fps),int(video.fps*clipDuration))]
+		
+		frames=[]
+	    seg_nr=0
+	    for frame_idx, f in enumerate(video.iter_frames()):
+	        if frame_idx > particalSegments[seg_nr][1]:
+	            seg_nr+=1
+	            if seg_nr==len(particalSegments):
+	                break
+	            frames=[]
 
-        frames.append(f)
+	        frames.append(f)
 
-        if len(frames)==16: # Extract scores
-            start=time.time()
-            snip = model.get_snips(frames,snipplet_mean,0,True)
-            queue.put((segments[seg_nr],snip))
-            print "put data to queue"
-            frames=frames[stride:] # shift by 'stride' frames
-    queue.put(sentinel)
+	        if len(frames)==16: # Extract scores
+	            start=time.time()
+	            snip = model.get_snips(frames,snipplet_mean,0,True)
+	            queue.put((particalSegments[seg_nr],snip))
+	            print "put data to queue"
+	            frames=frames[stride:] # shift by 'stride' frames
+	    queue.put(sentinel)
+
+
+
+
+
+    
         
