@@ -18,21 +18,21 @@ for root, dirs, files in list_dirs:
     video = VideoFileClip(video_path)
     
     frames=[]
-        seg_nr=0
-        for frame_idx, f in enumerate(video.iter_frames()):
-            if frame_idx > segments[seg_nr][1]:
-                seg_nr+=1
-                if seg_nr==len(segments):
-                    break
-                frames=[]
+    seg_nr=0
+    for frame_idx, f in enumerate(video.iter_frames()):
+        if frame_idx > segments[seg_nr][1]:
+            seg_nr+=1
+            if seg_nr==len(segments):
+                break
+            frames=[]
 
-            frames.append(f)
+        frames.append(f)
 
-            if len(frames)==16: # Extract scores
-                start=time.time()
-                snip = model.get_snips(frames,snipplet_mean,0,True)
-                queue.put((segments[seg_nr],snip))
-                print "put data to queue"
-                frames=frames[stride:] # shift by 'stride' frames
-        queue.put(sentinel)
+        if len(frames)==16: # Extract scores
+            start=time.time()
+            snip = model.get_snips(frames,snipplet_mean,0,True)
+            queue.put((segments[seg_nr],snip))
+            print "put data to queue"
+            frames=frames[stride:] # shift by 'stride' frames
+    queue.put(sentinel)
         
