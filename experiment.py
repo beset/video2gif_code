@@ -2,6 +2,7 @@ from IPython.display import Image, display
 import os
 from moviepy.editor import VideoFileClip
 import sys
+import Queue
 
 queue = Queue.Queue(maxsize=500)
 sentinel = object()  # guaranteed unique reference
@@ -16,7 +17,7 @@ for root, dirs, files in list_dirs:
     video_name=os.path.splitext(os.path.split(video_path)[1])[0].decode('utf-8')
     print video_path
     video = VideoFileClip(video_path)
-    
+
     frames=[]
     seg_nr=0
     for frame_idx, f in enumerate(video.iter_frames()):
