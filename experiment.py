@@ -6,6 +6,8 @@ import Queue
 
 def produce_data(video):
 	segmentsArray = []
+	queue = Queue.Queue(maxsize=500)
+	sentinel = object()  # guaranteed unique reference
 	for videoStart in range(0, 2, 1):
 		print "videoStart:"
 		print videoStart
@@ -32,8 +34,7 @@ def produce_data(video):
 
 
 
-queue = Queue.Queue(maxsize=500)
-sentinel = object()  # guaranteed unique reference
+
 
 videosDir = sys.argv[1]
 
