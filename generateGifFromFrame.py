@@ -31,7 +31,7 @@ def process_and_generate_gifs_with_frame(video_path, video_name):
 
 	## 0.5s to clipDuration
 	fps = video.fps
-	minFrames = max(int(0.5*fps), 20)
+	minFrames = max(int(0.5*fps), 30)
 	maxFrames = max(int(clipDuration*fps), minFrames)
 	print("minFrames: %d" % minFrames)
 	print("maxFrames: %d" % maxFrames)
