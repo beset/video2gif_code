@@ -16,6 +16,7 @@ from IPython.display import Image, display
 import os
 from moviepy.editor import VideoFileClip
 import sys
+import json
 
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
@@ -45,6 +46,9 @@ def process_and_generate_gifs(video_path, video_name):
 		print "score count:"
 		print len(scores)
 
+	logfile = open("scores.log", "wb")
+	logfile.write(json.dumps(scores))
+	logfile.close
 
 		'''
 	Now we generate GIFs for some segments and show them
