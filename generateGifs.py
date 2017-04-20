@@ -46,11 +46,13 @@ def process_and_generate_gifs(video_path, video_name):
 		print "score count:"
 		print len(scores)
 
+	print "print scores:"
+	print scores
 	print "write scores to scores.log"
 	logfile = open("scores.log", "wb")
 	logfile.write(json.dumps(scores))
 	logfile.close
-	
+
 
 	'''
 	Now we generate GIFs for some segments and show them
