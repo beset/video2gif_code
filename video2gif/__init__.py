@@ -84,9 +84,9 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
             if frame_idx > segments[seg_nr][1]:
                 seg_nr+=1
                 if seg_nr==len(segments):
+                    print "it's impossible"
                     break
 
-                start=time.time()
                 snip = model.get_snips(frames,snipplet_mean,0,True)
                 queue.put((segments[seg_nr],snip))
                 frames=[]
@@ -132,9 +132,9 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
 
     index = 0
     for segment in segment2score.keys():
+        print "segment scores count:"
+        print len(segment2score[segment])
         segment2score[segment]=np.array(segment2score[segment]).mean(axis=0)
-        if with_features:
-            features[segment]=np.array(features[segment]).mean(axis=0)
         index = index + 1
         print("second %d " % index)
 
