@@ -85,15 +85,14 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
                 seg_nr+=1
                 if seg_nr==len(segments):
                     break
+
+                start=time.time()
+                snip = model.get_snips(frames,snipplet_mean,0,True)
+                queue.put((segments[seg_nr],snip))
                 frames=[]
 
             frames.append(f)
 
-            if len(frames)==16: # Extract scores
-                start=time.time()
-                snip = model.get_snips(frames,snipplet_mean,0,True)
-                queue.put((segments[seg_nr],snip))
-                frames=frames[stride:] # shift by 'stride' frames
         queue.put(sentinel)
 
     def get_input_data():
@@ -114,7 +113,6 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
     thread.daemon = True
 
     segment2score=collections.OrderedDict()
-    features=collections.OrderedDict()
 
     extractStart=time.time()
     thread.start()
@@ -125,12 +123,8 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         # only add a segment, once we certainly get a prediction
         if segment not in segment2score:
             segment2score[segment]=[]
-            features[segment]=[]
-        if with_features:
-            scores,feat=predict(snip)
-            features[segment].append(feat.mean(axis=0))
-        else:
-            scores=predict(snip)
+
+        scores=predict(snip)
         segment2score[segment].append(scores.mean(axis=0))
         index = index + 1
         print("first %d " % index)
@@ -145,10 +139,7 @@ def get_scores(predict, segments, video, stride=8, with_features=False):
         print("second %d " % index)
 
     print("Extracting scores for %d segments took %.3fs" % (len(segments),time.time()-extractStart))
-    if with_features:
-        return segment2score, features
-    else:
-        return segment2score
+    return segment2score
 
 def is_overlapping(x1,x2,y1,y2):
     return max(x1,y1) < min(x2,y2)

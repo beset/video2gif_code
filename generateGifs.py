@@ -73,6 +73,8 @@ def process_and_generate_gifs(video_path, video_name):
 	print gifCount
 	video2gif.generate_gifs(OUT_DIR,scores, video, video_name,top_k=topCount)
 
+scriptStart=time.time()
+
 list_dirs = os.walk(videosDir) 
 for root, dirs, files in list_dirs:  
   for f in files: 
@@ -81,5 +83,7 @@ for root, dirs, files in list_dirs:
     video_name=os.path.splitext(os.path.split(video_path)[1])[0]
     print video_path
     process_and_generate_gifs(video_path, video_name)
+
+print("total time took %.3fs" % time.time()-scriptStart)
 	
 
