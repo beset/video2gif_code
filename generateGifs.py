@@ -85,6 +85,6 @@ for root, dirs, files in list_dirs:
     print video_path
     process_and_generate_gifs(video_path, video_name)
 
-print("total time took %.3fs" % time.time()-scriptStart)
+print("total time took %.3fs" % (time.time()-scriptStart))
 	
 
