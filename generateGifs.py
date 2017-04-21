@@ -18,6 +18,11 @@ from moviepy.editor import VideoFileClip
 import sys
 import json
 
+reload(sys)
+print sys.getdefaultencoding()
+sys.setdefaultencoding('utf8')
+
+
 videosDir = sys.argv[1]
 topCount = int(sys.argv[2])
 clipDuration = int(sys.argv[3])
