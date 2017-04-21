@@ -20,6 +20,12 @@ import theano
 import theano.tensor as T
 import skimage.transform
 from skimage import color
+import sys
+
+reload(sys)
+print sys.getdefaultencoding()
+
+
 tensor_type = T.TensorType(theano.config.floatX, [False] * 5)
 
 

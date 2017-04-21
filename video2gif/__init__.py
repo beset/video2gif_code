@@ -19,11 +19,16 @@ import time
 from time import sleep
 import model
 import ctypes
+import sys
 try:
     import lasagne
     import theano
 except (ImportError,AssertionError) as e:
     print(e.message)
+
+
+reload(sys)
+print sys.getdefaultencoding()
 
 # Load the configuration
 config=ConfigParser.SafeConfigParser()
