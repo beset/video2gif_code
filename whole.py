@@ -13,4 +13,4 @@ print video_name
 clip = video.subclip(20, 620)
 
 print video.fps
-clip.write_videofile(video_name + "_01.mp4", audio=False)
+clip.write_videofile(video_name + "10fps_01.mp4", fps=10, audio=False)
